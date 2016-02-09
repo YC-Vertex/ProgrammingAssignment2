@@ -13,7 +13,7 @@ makeCacheMatrix <- function(newMatrix = matrix()) {
     
     ## function "get" returns the original matrix
     get <- function() 
-        return(x)
+        return(newMatrix)
     
     ## function "setInverse" caches the inverse of the matrix
     setInverse <- function(inverse) 
@@ -30,7 +30,7 @@ makeCacheMatrix <- function(newMatrix = matrix()) {
 
 ## function "cacheSolve"
 ##c omputes the inverse of the special "matrix" returned by "makeCacheMatrix"
-cacheSolve <- function(targetMatrix) {
+cacheSolve <- function(targetMatrix, ...) {
     result <- targetMatrix[["getInverse"]]()
     
     ## check whether the inverse of the target matrix
@@ -42,9 +42,7 @@ cacheSolve <- function(targetMatrix) {
     else {
         ## get the inverse of the target matrix
         target <- targetMatrix[["get"]]()
-        result <- matrix(nrow = ncol(target), ncol = nrow(target))
-        for (i in 1:ncol(target)) 
-            result[i, ] = target[, i]
+        result <- solve(target, ...)
         
         ## return the inverse of the target matrix
         targetMatrix[["setInverse"]](result)
